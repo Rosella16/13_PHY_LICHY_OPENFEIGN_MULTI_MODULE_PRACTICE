@@ -37,6 +37,16 @@ public class OrderController {
                 .build();
         return ResponseEntity.ok(response);
     }
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> getAllOrders() {
+        ApiResponse<List<OrderResponse>> response = ApiResponse.<List<OrderResponse>>builder()
+                .message("All orders found")
+                .payload(orderService.findAll())
+                .status(HttpStatus.OK)
+                .dateTime(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
 
 }

@@ -40,4 +40,16 @@ private final ProductFeignClient productClient;
         }
         return order.toResponse(customerResponse, products);
     }
+
+    @Override
+    public List<OrderResponse> findAll() {
+        List<Order> orders = orderRepository.findAll();
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        for (Order order : orders) {
+            OrderResponse orderResponse = getOrderById(order.getId());
+            orderResponses.add(orderResponse);
+
+        }
+        return orderResponses;
+    }
 }
