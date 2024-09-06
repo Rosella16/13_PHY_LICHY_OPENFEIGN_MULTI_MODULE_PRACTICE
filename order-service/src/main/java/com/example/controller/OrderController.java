@@ -47,6 +47,27 @@ public class OrderController {
                 .build();
         return ResponseEntity.ok(response);
     }
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<Void>> deleteByOrderId(Long orderId) {
+        orderService.deleteById(orderId);
+        ApiResponse<Void> response = ApiResponse.<Void>builder()
+                .message("delete successful!")
+                .status(HttpStatus.OK)
+                .dateTime(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<OrderResponse>> updateOrder(@PathVariable Long id, @RequestBody OrderRequest orderRequest) {
+        ApiResponse<OrderResponse> response = ApiResponse.<OrderResponse>builder()
+                .message("Order updated successfully")
+                .payload(orderService.updateOrder(id, orderRequest))
+                .status(HttpStatus.OK)
+                .dateTime(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }

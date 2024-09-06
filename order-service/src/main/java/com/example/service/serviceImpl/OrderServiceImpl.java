@@ -52,4 +52,28 @@ private final ProductFeignClient productClient;
         }
         return orderResponses;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        orderRepository.deleteById(id);
+    }
+
+    @Override
+    public OrderResponse updateOrder(Long id, OrderRequest orderRequest) {
+        Order order = orderRepository.findById(id).orElse(null);
+
+        if (order ==null) {throw new IllegalStateException("Order not found with ID " + id);
+        }
+        Order updatedOrder = orderRepository.save(order);
+
+        CustomerResponse customerResponse = customerClient.getCustomerById(updatedOrder.getCustomerId());
+        List<ProductResponse> products = new ArrayList<>();
+
+        for (Long productId : updatedOrder.getProductIds()) {
+            ProductResponse productResponse = productClient.getProductById(productId);
+            products.add(productResponse);
+        }
+
+        return updatedOrder.toResponse(customerResponse, products);
+        }
 }
