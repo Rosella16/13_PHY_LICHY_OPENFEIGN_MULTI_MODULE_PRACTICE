@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/openfeign
+    password: rosella22
+    username: postgres
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8082
